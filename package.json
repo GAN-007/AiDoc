@@ -4,18 +4,22 @@
     "description": "AI Document Assistant built with React",
     "main": "index.html",
     "scripts": {
-      "start": "serve .",
-      "test": "echo \"No tests specified\" && exit 0"
+        "start": "serve .",
+        "test": "echo \"No tests specified\" && exit 0"
     },
-    "keywords": ["react", "javascript", "ai", "document-assistant"],
+    "keywords": [
+        "react",
+        "javascript",
+        "ai",
+        "document-assistant"
+    ],
     "author": "George Alfred",
     "license": "MIT",
-    "dependencies": {},
     "devDependencies": {
-      "serve": "^14.2.3"
+        "serve": "^14.2.4"
     },
     "repository": {
-      "type": "git",
-      "url": "https://github.com/your-username/ai-doc-assistant.git"
+        "type": "git",
+        "url": "https://github.com/your-username/ai-doc-assistant.git"
     }
-  }
+}
