@@ -1116,9 +1116,9 @@ function App() {
                             <span className="text-xs bg-white bg-opacity-20 px-2 py-1 rounded">By George Alfred</span>
                         </h1>
                         <div className="hidden md:flex space-x-4">
-                            <a href="#" className="text-white text-opacity-80 hover:text-opacity-100 transition-opacity">Home</a>
-                            <a href="#" className="text-white text-opacity-80 hover:text-opacity-100 transition-opacity">Features</a>
-                            <a href="#" className="text-white text-opacity-80 hover:text-opacity-100 transition-opacity">Help</a>
+                            <a href="/" className="text-white text-opacity-80 hover:text-opacity-100 transition-opacity">Home</a>
+                            <a href="#settings" onClick={() => toggleSettings()} className="text-white text-opacity-80 hover:text-opacity-100 transition-opacity">Features</a>
+                            <a href="/help.html" className="text-white text-opacity-80 hover:text-opacity-100 transition-opacity">Help</a>
                         </div>
                     </div>
                 </div>
