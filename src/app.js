@@ -1708,54 +1708,190 @@ if (typeof describe !== 'undefined') {
 
         describe('SettingsSidebar', () => {
             it('toggles sidebar visibility', () => {
-                const mockContext = {
-                    settings: {
-                        darkMode: false,
-                        autoSave: true,
-                        notifications: true,
-                        showAnimations: true,
-                        colorGradient: '#5D5CDE',
-                        aiModel: 'default'
-                    },
-                    toggleDarkMode: jest.fn(),
-                    updateColorGradient: jest.fn(),
-                    updateAIModel: jest.fn()
-                };
-                jest.spyOn(React, 'useContext').mockReturnValue(mockContext);
-                render(<SettingsSidebar />);
-                expect(screen.queryByText('Settings')).not.toBeInTheDocument();
-                fireEvent.click(screen.getByRole('button', { name: '⚙️' }));
-                expect(screen.getByText('Settings')).toBeInTheDocument();
-                fireEvent.click(screen.getByRole('button', { name: '✕' }));
-                expect(screen.queryByText('Settings')).not.toBeInTheDocument();
+              const mockContext = {
+                settings: {
+                  darkMode: false,
+                  autoSave: true,
+                  notifications: true,
+                  showAnimations: true,
+                  colorGradient: '#5D5CDE',
+                  aiModel: 'default',
+                  autosaveEnabled: true,
+                  notificationsEnabled: true,
+                  animationsEnabled: true,
+                },
+                toggleDarkMode: jest.fn(),
+                updateColorGradient: jest.fn(),
+                updateAIModel: jest.fn(),
+                setSettings: jest.fn(),
+              };
+              jest.spyOn(React, 'useContext').mockReturnValue(mockContext);
+              render(<SettingsSidebar />);
+              expect(screen.queryByText('Settings')).not.toBeInTheDocument();
+              fireEvent.click(screen.getByRole('button', { name: '⚙️' }));
+              expect(screen.getByText('Settings')).toBeInTheDocument();
+              expect(screen.getByText('Interface')).toBeInTheDocument();
+              expect(screen.getByText('AI Model')).toBeInTheDocument();
+              expect(screen.getByText('Color Theme')).toBeInTheDocument();
+              expect(screen.getByText('Document Processing')).toBeInTheDocument();
+              fireEvent.click(screen.getByRole('button', { name: '✕' }));
+              expect(screen.queryByText('Settings')).not.toBeInTheDocument();
             });
-
+          
             it('toggles settings', () => {
-                const mockContext = {
-                    settings: {
-                        darkMode: false,
-                        autoSave: true,
-                        notifications: true,
-                        showAnimations: true,
-                        colorGradient: '#5D5CDE',
-                        aiModel: 'default'
-                    },
-                    toggleDarkMode: jest.fn(),
-                    updateColorGradient: jest.fn(),
-                    updateAIModel: jest.fn()
-                };
-                jest.spyOn(React, 'useContext').mockReturnValue(mockContext);
-                render(<SettingsSidebar />);
-                fireEvent.click(screen.getByRole('button', { name: '⚙️' }));
-                fireEvent.click(screen.getByLabelText('Dark Mode').querySelector('.cursor-pointer'));
-                expect(mockContext.toggleDarkMode).toHaveBeenCalled();
-                fireEvent.change(screen.getByRole('combobox'), { target: { value: 'advanced' } });
-                expect(mockContext.updateAIModel).toHaveBeenCalledWith('advanced');
-                fireEvent.click(screen.getByTitle('Teal'));
-                expect(mockContext.updateColorGradient).toHaveBeenCalledWith('#00D0BD');
+              const mockContext = {
+                settings: {
+                  darkMode: false,
+                  autoSave: true,
+                  notifications: true,
+                  showAnimations: true,
+                  colorGradient: '#5D5CDE',
+                  aiModel: 'default',
+                  autosaveEnabled: true,
+                  notificationsEnabled: true,
+                  animationsEnabled: true,
+                },
+                toggleDarkMode: jest.fn(),
+                updateColorGradient: jest.fn(),
+                updateAIModel: jest.fn(),
+                setSettings: jest.fn(),
+              };
+              jest.spyOn(React, 'useContext').mockReturnValue(mockContext);
+              render(<SettingsSidebar />);
+              fireEvent.click(screen.getByRole('button', { name: '⚙️' }));
+              fireEvent.click(screen.getByLabelText('Dark Mode').querySelector('.cursor-pointer'));
+              expect(mockContext.toggleDarkMode).toHaveBeenCalled();
+              fireEvent.click(screen.getByLabelText('Auto-Save').querySelector('.cursor-pointer'));
+              expect(mockContext.setSettings).toHaveBeenCalledWith({ ...mockContext.settings, autoSave: false });
+              fireEvent.click(screen.getByLabelText('Notifications').querySelector('.cursor-pointer'));
+              expect(mockContext.setSettings).toHaveBeenCalledWith({ ...mockContext.settings, notifications: false });
+              fireEvent.click(screen.getByLabelText('Animations').querySelector('.cursor-pointer'));
+              expect(mockContext.setSettings).toHaveBeenCalledWith({ ...mockContext.settings, showAnimations: false });
+              fireEvent.change(screen.getByRole('combobox'), { target: { value: 'advanced' } });
+              expect(mockContext.updateAIModel).toHaveBeenCalledWith('advanced');
+              fireEvent.click(screen.getByTitle('Teal'));
+              expect(mockContext.updateColorGradient).toHaveBeenCalledWith('#00D0BD');
             });
-        });
-
+          
+            it('toggles autosave, notifications, and animations', () => {
+              const mockContext = {
+                settings: {
+                  darkMode: false,
+                  autoSave: true,
+                  notifications: true,
+                  showAnimations: true,
+                  colorGradient: '#5D5CDE',
+                  aiModel: 'default',
+                  autosaveEnabled: true,
+                  notificationsEnabled: true,
+                  animationsEnabled: true,
+                },
+                toggleDarkMode: jest.fn(),
+                updateColorGradient: jest.fn(),
+                updateAIModel: jest.fn(),
+                setSettings: jest.fn(),
+              };
+              jest.spyOn(React, 'useContext').mockReturnValue(mockContext);
+              render(<SettingsSidebar />);
+              fireEvent.click(screen.getByRole('button', { name: '⚙️' }));
+              fireEvent.click(screen.getByLabelText('Auto-Save').querySelector('.cursor-pointer'));
+              expect(mockContext.setSettings).toHaveBeenCalledWith({ ...mockContext.settings, autoSave: false });
+              fireEvent.click(screen.getByLabelText('Notifications').querySelector('.cursor-pointer'));
+              expect(mockContext.setSettings).toHaveBeenCalledWith({ ...mockContext.settings, notifications: false });
+              fireEvent.click(screen.getByLabelText('Animations').querySelector('.cursor-pointer'));
+              expect(mockContext.setSettings).toHaveBeenCalledWith({ ...mockContext.settings, showAnimations: false });
+              fireEvent.click(screen.getByLabelText('Auto-Save').querySelector('.cursor-pointer'));
+              expect(mockContext.setSettings).toHaveBeenCalledWith({ ...mockContext.settings, autoSave: true });
+              fireEvent.click(screen.getByLabelText('Notifications').querySelector('.cursor-pointer'));
+              expect(mockContext.setSettings).toHaveBeenCalledWith({ ...mockContext.settings, notifications: true });
+              fireEvent.click(screen.getByLabelText('Animations').querySelector('.cursor-pointer'));
+              expect(mockContext.setSettings).toHaveBeenCalledWith({ ...mockContext.settings, showAnimations: true });
+            });
+          
+            it('persists settings to localStorage', () => {
+              const mockContext = {
+                settings: {
+                  darkMode: false,
+                  autoSave: true,
+                  notifications: true,
+                  showAnimations: true,
+                  colorGradient: '#5D5CDE',
+                  aiModel: 'default',
+                  autosaveEnabled: true,
+                  notificationsEnabled: true,
+                  animationsEnabled: true,
+                },
+                toggleDarkMode: jest.fn(),
+                updateColorGradient: jest.fn(),
+                updateAIModel: jest.fn(),
+                setSettings: jest.fn(),
+              };
+              jest.spyOn(React, 'useContext').mockReturnValue(mockContext);
+              render(<SettingsSidebar />);
+              fireEvent.click(screen.getByRole('button', { name: '⚙️' }));
+              fireEvent.click(screen.getByLabelText('Auto-Save').querySelector('.cursor-pointer'));
+              fireEvent.click(screen.getByLabelText('Notifications').querySelector('.cursor-pointer'));
+              fireEvent.click(screen.getByLabelText('Animations').querySelector('.cursor-pointer'));
+              expect(localStorage.getItem('autosaveEnabled')).toBe('false');
+              expect(localStorage.getItem('notificationsEnabled')).toBe('false');
+              expect(localStorage.getItem('animationsEnabled')).toBe('false');
+            });
+          
+            it('renders color theme options', () => {
+              const mockContext = {
+                settings: {
+                  darkMode: false,
+                  autoSave: true,
+                  notifications: true,
+                  showAnimations: true,
+                  colorGradient: '#5D5CDE',
+                  aiModel: 'default',
+                  autosaveEnabled: true,
+                  notificationsEnabled: true,
+                  animationsEnabled: true,
+                },
+                toggleDarkMode: jest.fn(),
+                updateColorGradient: jest.fn(),
+                updateAIModel: jest.fn(),
+                setSettings: jest.fn(),
+              };
+              jest.spyOn(React, 'useContext').mockReturnValue(mockContext);
+              render(<SettingsSidebar />);
+              fireEvent.click(screen.getByRole('button', { name: '⚙️' }));
+              expect(screen.getByTitle('Purple')).toBeInTheDocument();
+              expect(screen.getByTitle('Teal')).toBeInTheDocument();
+              expect(screen.getByTitle('Orange')).toBeInTheDocument();
+              expect(screen.getByTitle('Pink')).toBeInTheDocument();
+              expect(screen.getByTitle('Blue')).toBeInTheDocument();
+              expect(screen.getByTitle('Green')).toBeInTheDocument();
+            });
+          
+            it('renders AI model options', () => {
+              const mockContext = {
+                settings: {
+                  darkMode: false,
+                  autoSave: true,
+                  notifications: true,
+                  showAnimations: true,
+                  colorGradient: '#5D5CDE',
+                  aiModel: 'default',
+                  autosaveEnabled: true,
+                  notificationsEnabled: true,
+                  animationsEnabled: true,
+                },
+                toggleDarkMode: jest.fn(),
+                updateColorGradient: jest.fn(),
+                updateAIModel: jest.fn(),
+                setSettings: jest.fn(),
+              };
+              jest.spyOn(React, 'useContext').mockReturnValue(mockContext);
+              render(<SettingsSidebar />);
+              fireEvent.click(screen.getByRole('button', { name: '⚙️' }));
+              expect(screen.getByText('Default AI')).toBeInTheDocument();
+              expect(screen.getByText('Advanced AI')).toBeInTheDocument();
+              expect(screen.getByText('Experimental AI')).toBeInTheDocument();
+            });
+          });
         describe('StatusNotification', () => {
             it('renders nothing when status is idle', () => {
                 const mockContext = {
